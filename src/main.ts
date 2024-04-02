@@ -5,6 +5,9 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   // 创建nest实例
   const app = await NestFactory.create(AppModule);
+  // app.setGlobalPrefix('api', {
+  //   exclude: ['/'],
+  // })
   const options = new DocumentBuilder()
     .setTitle('Api example')
     .setDescription('The API description')

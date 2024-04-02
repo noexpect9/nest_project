@@ -11,6 +11,5 @@ import { UserController } from './user.controller'
 })
 export class UserModule {
   constructor(private readonly userService: UserService) {
-    this.userService.user({ id: 1 });
   }
 }

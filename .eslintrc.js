@@ -15,11 +15,12 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js', '**/*.d.ts', '**/*.js', '**/*.json', '/src'],
+  ignorePatterns: ['.eslintrc.js', '**/*.d.ts', '**/*.js', '**/*.json', '/src', 'prisma'],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'quotes': ['warn', 'single', { 'avoidEscape': true }],
   },
-};
+}
