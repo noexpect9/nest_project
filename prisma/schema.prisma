@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model user {
+  //BigInt类型	主键 自增值	非负BitInt
+  id        Int      @id @default(autoincrement()) @db.UnsignedInt()
+  //字符串，默认为varchar(191)
+  email     String
+  password  String
+  //添加时自动设置时间，即设置Mysql默认值为CURRENT_TIMESTAMP
+  createdAt DateTime @default(now())
+  // 让Prisma在添加与更新时自动维护该字段
+  updatedAt DateTime @updatedAt
+}
+
+model category {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt()
+  title      String
+  articles   article[]
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+}
+
+model article {
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt()
+  title      String
+  content    String   @db.Text()
+  //类型category	关联定义(本表字段catgoryId,关联category表id,主表记录删除时同时删除关联表数据）
+  category   category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId Int      @db.UnsignedInt()
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
