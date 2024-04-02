@@ -3,10 +3,12 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { PrismaService } from '../prisma.service';
 import * as argon2 from 'argon2';
+import { JwtService } from '@nestjs/jwt';
+import { user as UserModel } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService, private readonly jwt: JwtService) { }
 
   async register(createAuthDto: CreateAuthDto) {
     console.log(createAuthDto, 'createAuthDto');
@@ -26,21 +28,26 @@ export class AuthService {
     email,
     password
   }: CreateAuthDto) {
-    console.log(   email,
-      password);
-    
+
     const user = await this.prisma.user.findFirst({
       where: {
         email
       }
     })
     console.log(user);
-    
+
     if (!user) throw new BadRequestException('用户不存在');
     // const psMatch = await argon2.verify(user.password, password);
     // if (!psMatch) throw new BadRequestException('密码输入错误');
-    delete user.password;
-    return user;
+    // delete user.password;
+    return this.getToken(user)
+  }
+
+  async getToken(user: UserModel) {
+    return this.jwt.signAsync({
+      username: user.email,
+      sub: user.id
+    })
   }
 
   create(createAuthDto: CreateAuthDto) {
