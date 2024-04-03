@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { TransformInterceptor } from './utils/app.interceptor';
 
 async function bootstrap() {
   // 创建nest实例
@@ -8,6 +9,7 @@ async function bootstrap() {
   // app.setGlobalPrefix('api', {
   //   exclude: ['/'],
   // })
+  app.useGlobalInterceptors(new TransformInterceptor());
   const options = new DocumentBuilder()
     .setTitle('Api example')
     .setDescription('The API description')

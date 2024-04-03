@@ -6,6 +6,7 @@ import { ResponseFormat } from 'src/utils/responseFormat';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
+import { Auth } from '../decorator/auth.decorator';
 
 @Controller('user')
 @ApiTags('users')
@@ -14,7 +15,8 @@ export class UserController {
   }
 
   @Get('/:id')
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
+  @Auth()
   // jwt.strategy.ts 中 validate结果会保存到req请求数据中
   findOne(@Req() req: Request) {
     return req.user;

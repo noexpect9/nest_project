@@ -38,6 +38,9 @@ dependencies:
   class-validator:
     specifier: ^0.14.1
     version: 0.14.1
+  lodash:
+    specifier: ^4.17.21
+    version: 4.17.21
   mockjs:
     specifier: ^1.1.0
     version: 1.1.0
