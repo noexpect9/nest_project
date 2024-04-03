@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators'
 @Injectable()
 export class TransformInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler) {
-    console.log('拦截器前')
     const request = context.switchToHttp().getRequest() as Request
     const startTime = Date.now()
     return next.handle().pipe(
