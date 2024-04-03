@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
+import Article from './entities/article.entity'
 
 @Controller('article')
 export class ArticleController {
@@ -13,8 +14,9 @@ export class ArticleController {
   }
 
   @Get('/list')
-  findAll(@Query() { page = 1, row = 10 }) {
-    return this.articleService.findAll(+page, +row);
+  async findAll(@Query() { page = 1, row = 10 }) {
+    const article = await this.articleService.findAll(+page, +row) as any;
+    return new Article(article)
   }
 
   @Get('/findOne/:id')
